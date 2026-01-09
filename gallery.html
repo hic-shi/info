@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>HIC_SHI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="https://hic-shi.github.io/info/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://hic-shi.github.io/info/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://hic-shi.github.io/info/android-touch-icon.png" sizes="192x192">
+    <meta property="og:image" content="https://hic-shi.github.io/info/OGP_min.png"/>
+    <meta property="og:url" content="https://hic-shi.github.io/info/gallery.html"/>
+    <meta property="og:site_name" content="HIC_SHI"/> 
+    <meta property="og:title" content="gallery"/> 
+    <meta name="description" content="">
+    <meta property="og:description" content=""/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="HIC_SHI_NORI">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<style>
+    #headerGalley { color: #0d2613; background-color: rgb(196, 210, 196); }
+    header button { color: #888888; }
+    #loader-wrapper {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+        background-color: #333333; display: flex; justify-content: center; align-items: center;
+        opacity: 1; transition: opacity 0.5s ease-out, visibility 0.5s ease-out; visibility: visible;
+    }
+    #loader-wrapper.hidden { opacity: 0; visibility: hidden; }
+    #loader { width: 600px; height: 600px; background-size: contain; background-repeat: no-repeat; background-position: center; animation: spin 1.5s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    body { font-family: sans-serif; margin: 10px; background-color: #f4f4f4; color: #adadad; }
+    h1 { display: none; }
+    .gallery-section { margin-top: 8px; margin-bottom: 1px; padding: 2px; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-family: 'Material Symbols Outlined'; font-size: 24px; display: inline-block; line-height: 1; vertical-align: middle; }
+
+    #sortTypeToggle { display: flex; align-items: center; width: 70px; height: 35px; border-radius: 17.5px; background-color: #8a8a8a; position: relative; cursor: pointer; transition: background-color 0.2s ease-in-out; flex-shrink: 0; padding: 2px; box-sizing: border-box; }
+    #sortTypeToggle.score-active, #sortTypeToggle.date-active { background-color: #c9c9c9; }
+    #toggleHandle { position: absolute; top: 2px; width: 31px; height: 31px; border-radius: 50%; background-color: rgb(255, 255, 255); box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: left 0.2s ease-in-out; z-index: 1; display: flex; justify-content: center; align-items: center; }
+    #sortTypeToggle.score-active #toggleHandle { left: calc(70px - 31px - 2px); }
+    #sortTypeToggle.date-active #toggleHandle { left: 2px; }
+    .toggle-option { position: absolute; top: 50%; transform: translateY(-50%); display: flex; justify-content: center; align-items: center; font-size: 0.9em; pointer-events: none; transition: color 0.2s ease-in-out; z-index: 1; padding: 5px; }
+    #sortDate { left: 1px; color: #a0a0a0; }
+    #sortScore { right: 1px; color: white; }
+    #sortTypeToggle.score-active #sortScore { color: rgb(105, 105, 105); }
+    #sortTypeToggle.score-active #sortDate { color: #c9c9c9; }
+    #sortTypeToggle.date-active #sortScore { color: #c9c9c9; }
+    #sortTypeToggle.date-active #sortDate { color: rgb(105, 105, 105); }
+
+    #galleryHeader { display: flex; align-items: center; margin-bottom: 8px; padding: 0; user-select: none; }
+    #controlContainer { display: flex; gap: 15px; align-items: center; overflow-x: auto; width: 100%; }
+    #sortGroup, #actionButtons { display: flex; gap: 10px; flex-shrink: 0; }
+    #sortGroup button, #actionButtons button { background-color: #f8f9fa; color: #000; border: 1px solid #ced4da; border-radius: 4px; cursor: pointer; display: flex; align-items: center; padding: 6px 10px; font-size: 0.9em; height: 35px; }
+    #resetButton { background-color: #dc3545; color: white; border-color: #dc3545; }
+    .filter-active { background-color: #e88e4e !important; color: white !important; border-color: #28a745 !important; }
+    .filter-inverse { background-color: #59B3B3 !important; color: rgb(255, 255, 255) !important; border-color: #778492 !important; }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); grid-auto-rows: 2px; grid-gap: 0px; padding: 0 1px; align-items: start; }
+    .gallery-grid.square-mode { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important; grid-auto-rows: auto !important; gap: 4px !important; }
+    .square-mode .work-card { grid-row-end: auto !important; }
+    .square-mode .work-card::after { content: ""; display: block; padding-top: 100%; }
+    .square-mode .thumbnail-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .square-mode .thumbnail-img { width: 100%; height: 100%; object-fit: cover; }
+
+    @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
+    @media (max-width: 600px) {
+        .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        .work-card.landscape:not(.square-mode) { grid-column: span 2; }
+        .gallery-grid.square-mode { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
+    main { margin-left: 0px; width: 100%; -webkit-touch-callout:none;}
+    .work-card { border: 1px solid #ddd; padding: 0; background-color: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); position: relative; overflow: hidden; box-sizing: border-box; cursor: pointer; }
+    .thumbnail-container { width: 100%; height: auto; position: relative; overflow: hidden; display: block; }
+    .thumbnail-img { width: 100%; height: auto; display: block; }
+
+    /* --- ボックス --- */
+    #lightbox {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: none; justify-content: center; align-items: center;
+        z-index: 10000; cursor: pointer;
+    }
+    #lightbox img {
+        max-width: 95%; max-height: 95%;
+        object-fit: contain;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+</style>
+</head>
+<body>
+<header>
+    <a href="index.html"><button id="headerHOME">HOME</button></a>
+    <a href="about.html"><button id="headerAbout" >About</button></a>
+    <a href="links.html"><button id="headerLinks">Links</button></a>
+    <a href="gallery.html"><button id="headerGalley">Gallery</button></a>
+</header>    
+<main>
+    <div id="loader-wrapper"><div id="loader"></div></div>
+    <div class="gallery-section">
+        <div id="galleryHeader">
+            <div id="controlContainer">
+                <div id="sortGroup">
+                    <div id="sortTypeToggle" onclick="changeSortType()" class="date-active">
+                        <div id="toggleHandle"></div> 
+                        <div id="sortDate" class="toggle-option"><span class="material-symbols-outlined">calendar_month</span></div>
+                        <div id="sortScore" class="toggle-option"><span class="material-symbols-outlined">star</span></div>
+                    </div>
+                    <button id="sortOrderButton" onclick="changeState('SORT_ORDER')"><span class="material-symbols-outlined">arrow_downward</span></button>
+                </div>
+                <div id="actionButtons">
+                    <button id="resetButton" onclick="changeState('RESET')"><span class="material-symbols-outlined">restart_alt</span></button>
+                    <button id="originalFilterButton" onclick="changeState('FILTER')"><span id="filterStatusText">OC</span></button>
+                    <button id="layoutToggleButton" onclick="toggleLayout()">
+                        <span id="layoutIcon" class="material-symbols-outlined">dashboard</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-grid square-mode" id="galleryContainer">
+            <p id="loadingStatus">date.jsonを読み込んでいます...</p>
+        </div>
+    </div>
+</main>
+
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+let appData = { illustrations: [] };
+let worksWithScore = [];
+let galleryState = { sortType: 'date', sortOrder: 'desc', filterState: 0, isSquare: true };
+
+const galleryContainerElement = document.getElementById('galleryContainer');
+const loadingStatusElement = document.getElementById('loadingStatus');
+
+function openLightbox(url) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    lbImg.src = url;
+    lb.style.display = 'flex';
+}
+
+function getDateFromId(id) { const s = String(id); return `${s.substring(0, 4)}-${s.substring(4, 6)}-${s.substring(6, 8)}`; }
+function normalizeWorkData(item) {
+    if (item.likes_history) item.l = item.likes_history.map(h => ({ d: h.liked_date, c: h.count }));
+    if (!item.s_u && item.x_u) item.s_u = item.x_u;
+    if (!item.tags) item.tags = [];
+    return item;
+}
+function getElapsedDays(d1, d2) { return Math.max(0, Math.ceil((new Date(d2) - new Date(d1)) / (1000 * 60 * 60 * 24))); }
+function getMultiplier(days) { if (days >= 365) return 4; if (days >= 181) return 3; if (days >= 91) return 2; if (days >= 31) return 1.5; return 1; }
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const res = await fetch('date.json');
+        let data = await res.json();
+        appData.illustrations = (Array.isArray(data) ? data : data.illustrations).map(normalizeWorkData);
+        calculateWorkScores();
+        updateUI();
+        sortGallery();
+        loadingStatusElement.style.display = 'none';
+        hideLoader();
+    } catch (e) { console.error(e); hideLoader(); }
+});
+
+function calculateWorkScores() {
+    worksWithScore = appData.illustrations.map(w => {
+        const pDate = getDateFromId(w.id);
+        const score = (w.l || []).reduce((s, h) => s + (h.c * getMultiplier(getElapsedDays(pDate, h.d))), 0);
+        return { ...w, totalScore: score };
+    });
+}
+
+function toggleLayout() {
+    galleryState.isSquare = !galleryState.isSquare;
+    galleryContainerElement.classList.toggle('square-mode');
+    updateUI();
+    sortGallery();
+}
+
+function changeSortType() {
+    galleryState.sortType = galleryState.sortType === 'score' ? 'date' : 'score';
+    document.getElementById('sortTypeToggle').className = galleryState.sortType + '-active';
+    sortGallery();
+}
+
+function changeState(action) {
+    if (action === 'RESET') galleryState = { ...galleryState, sortType: 'date', sortOrder: 'desc', filterState: 0 };
+    else if (action === 'SORT_ORDER') galleryState.sortOrder = galleryState.sortOrder === 'desc' ? 'asc' : 'desc';
+    else if (action === 'FILTER') galleryState.filterState = (galleryState.filterState + 1) % 3;
+    updateUI();
+    if (action === 'RESET') document.getElementById('sortTypeToggle').className = 'date-active';
+    sortGallery();
+}
+
+function updateUI() {
+    document.getElementById('sortOrderButton').innerHTML = `<span class="material-symbols-outlined">${galleryState.sortOrder === 'desc' ? 'arrow_downward' : 'arrow_upward'}</span>`;
+    const fBtn = document.getElementById('originalFilterButton');
+    fBtn.className = galleryState.filterState === 1 ? 'filter-active' : (galleryState.filterState === 2 ? 'filter-inverse' : '');
+    document.getElementById('filterStatusText').textContent = galleryState.filterState === 2 ? 'OC✕' : 'OC';
+    const layoutIcon = document.getElementById('layoutIcon');
+    layoutIcon.textContent = galleryState.isSquare ? 'grid_view' : 'dashboard'; 
+}
+
+function sortGallery() {
+    let filtered = worksWithScore.filter(w => {
+        const isOC = w.tags.includes('オリジナル');
+        if (galleryState.filterState === 1) return isOC;
+        if (galleryState.filterState === 2) return !isOC;
+        return true;
+    });
+    filtered.sort((a, b) => {
+        let vA = galleryState.sortType === 'date' ? a.id : a.totalScore;
+        let vB = galleryState.sortType === 'date' ? b.id : b.totalScore;
+        return galleryState.sortOrder === 'desc' ? vB - vA : vA - vB;
+    });
+    renderGallery(filtered);
+}
+
+function renderGallery(works) {
+    galleryContainerElement.innerHTML = works.length ? '' : '<p>作品がありません。</p>';
+    works.forEach(w => {
+        const card = document.createElement('div');
+        card.className = 'work-card';
+        card.onclick = () => openLightbox(w.s_u);
+        card.innerHTML = `<div class="thumbnail-container"><img src="${w.s_u}" class="thumbnail-img" loading="lazy"></div>`;
+        galleryContainerElement.appendChild(card);
+        const img = card.querySelector('img');
+        if (!galleryState.isSquare) {
+            img.onload = () => adjustCardHeight(card, img);
+            if (img.complete) adjustCardHeight(card, img);
+        }
+    });
+}
+
+function adjustCardHeight(card, img) {
+    if (galleryState.isSquare) return;
+    const aspect = img.naturalHeight / img.naturalWidth;
+    if (aspect < 1) card.classList.add('landscape'); else card.classList.remove('landscape');
+    const span = Math.ceil(card.offsetHeight / 2) + 5;
+    card.style.gridRowEnd = `span ${span}`;
+}
+
+function hideLoader() { document.getElementById('loader-wrapper').classList.add('hidden'); }
+
+document.body.oncontextmenu = function () {return false;}
+</script>
+</body>
+</html>

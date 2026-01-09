@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<html lang="ja">
+<header>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+<style>
+    .zen-old-mincho-regular {
+  font-family: "Zen Old Mincho", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.zen-maru-gothic-regular {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1[id], h2[id], h3[id] {
+    scroll-margin-top: 100px; 
+}
+html {
+    scroll-behavior: smooth;
+}
+    body {
+        font-family: "Zen Old Mincho Regular";
+    }
+    h1{
+        font-size: 30px;
+        margin-bottom: 2px;
+        display:inline;
+    }
+    h2{
+        font-family: "Zen Maru Gothic Light";
+        font-size: 20px;
+        margin-left: 4px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        display:inline;
+    }
+    h3{
+        font-size: 20px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    h4{
+        font-size: 15px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    p{
+        font-size: 19px;
+        margin-top: 3px;
+        letter-spacing: 1px;
+        letter-spacing: -1px;
+    }
+    .種別{
+        font-size: 14px;
+    }
+    .単位{
+        font-size: 16px;
+    }
+    div{
+        font-size: 19px;
+        margin-top: 0px;
+    }
+    .目次 {
+        font-family: "Zen Old Mincho Regular";
+    display: inline-block; 
+    margin-top: 30px;
+    }
+    .container {
+        margin-top: -15px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+    .column {
+        display: block;
+    }
+@media(max-width:600px) {
+    .wrap-sidebar {
+        display: block !important;
+        margin-right: 0 !important;
+    }
+
+    .contentsX {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+        width: auto !important;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+    h1 {
+        display:inline;
+        font-size: 24px;
+    }
+    h2 {
+        display:inline;
+        font-size: 17px;
+    }
+    h3{
+        font-family: "Zen Maru Gothic Light";
+        font-size: 16px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    h4{
+        font-family: "Zen Maru Gothic Light";
+        font-size: 15px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    
+    p{
+        font-size: 13px;
+        margin-top: 3px;
+        letter-spacing: 1px;
+        letter-spacing: -1px;
+    }
+}
+    .wrap-sidebar {
+  margin-right: 5vh;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 20rem;  /* 左右コンテンツの大きさ */
+  gap: 6rem;  /* コンテンツ間の余白 */
+}
+.contentsX {
+ margin-left: 15vh;
+  height: 100%;
+}
+.sidebar-in {
+  position: sticky;
+  top: 20px;
+  height: 300px;
+}
+.toc-002 {
+  font-family: "Zen Maru Gothic Regular";
+    margin-bottom: 30px;
+    border: 2px solid #a2d025;
+    border-radius: 3px;
+}
+
+.toc-002 div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 10px 0;
+    background-color: #a2d025;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.toc-002 div::before {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    content: '';
+}
+
+.toc-002 ol {
+    list-style-type: disc;
+    margin: 0;
+    overflow: hidden;
+}
+
+.toc-002 > ol {
+    padding: 1em 1em 1em 3em;
+}
+
+.toc-002 ol ol {
+    margin-top: 5px;
+    padding-left: 1.1em;
+}
+
+.toc-002 li {
+    color: #ffffff;
+    padding: 5px 0;
+    font-weight: 600;
+}
+
+.toc-002 ol ol li {
+    font-weight: 500;
+    font-size: .9em;
+    color: #ffffff;
+}
+
+.toc-002 a {
+    color: #333;
+    text-decoration: none;
+}
+</style>
+</header>
+<body>
+<div class="sec-in wrap-sidebar">
+  <main class="contentsX">
+
+<h1 class="目次" id="000">階層</h1>
+<hr>
+<h3>地球外</h3>
+<p>┗神<br>&emsp;┣魔女/魔男<br>&emsp;┃ ┗魔法<br>&emsp;┗魔物</p>
+<h3>地球内</h3>
+<p>┣生命体<br> ┃ ┣動物<br> ┃ ┃ ┣人間<br> ┃ ┃ ┃ ┣魔術師<br> ┃ ┃ ┃ ┃ ┗魔術<br> ┃ ┃ ┃ ┃&emsp;┗魔術書<br> ┃ ┃ ┃ ┣亜種族/獣人<br> ┃ ┃ ┗怪族<br> ┃ ┖植物<br> ┗静物</p>
+    
+    
+<h1 class="目次" id="100">用語</h1>
+<hr>
+<h1 id="101">コロン</h1><h2>魔族</h2>
+<p>魔法や魔術を扱える動物。</p>
+
+
+<h1 id="102">ティカ</h1><h2>魔女・魔男</h2>
+<p>神の一部が地上に落ちたとき人間を模倣したもの。<br>
+大魔導士クレインやメロウなど。</p>
+
+
+<h1 id="110">トゥノ</h1><h2>人族</h2>
+<p>もとよりシーレンスに存在する人間。</p>
+
+
+<h1 id="111">アラン</h1><h2>魔術師</h2>
+<p>ティカの影響によって魔術を扱えるように<br>
+なった人族。</p>
+
+
+<h1 id="112">ノマ</h1><h2>人間</h2>
+<p>もとよりシーレンスに存在する人族。<br>
+ティカの影響によって魔力を魔術に変換する<br>
+方法を身につけた。</p>
+
+
+<h1 id="120">ホルン</h1><h2>動物</h2>
+<p>ティカの影響によって魔物に変化する場合がある。</p>
+
+
+<h1 id="121">ティルン</h1><h2>魔物</h2>
+<p>魔法を扱うことができ、また人に対して<br>
+攻撃的である人型以外の動物。<br>
+ティカと同じく神の一部から生まれたものも<br>
+ティカの影響によって魔法を扱うものも<br>
+全て魔物と称される。スライムとかはいない。</p>
+
+
+<h1 id="125">カストロ</h1><h2>怪族</h2>
+<p>神や妖怪とも形容できる。<br>
+魔物と混同されやすい。</p>
+
+
+<h1 id="126">ドゥページョ</h1><h2>亜種族</h2>
+<p>交配によって生まれた歪な生物。<br>
+人族からは恐れられ、怪族からは蔑まれている。</p>
+
+
+<h1 id="150">クリストフ国家騎士団</h1>
+<p>王家の血を引くクリストフ家が率いる騎士団。<br>
+国家の秩序と国民の安全を守り、あらゆる脅威を対処する役割を担う</p>
+<h1 id="151">魔教団</h1>
+<p>大魔導士クレインによって設立された。現在は<br>
+    妹のコスティアが引き継いでいる。<br>
+コロンや魔術・魔法・アーティファクトなどに関する<br>こと全てを扱う。<br>
+フォスやAGが所属しているのは主に事件を取り扱う<br>部署。</p>
+
+
+
+<h1 class="目次" id="200">キャラクター</h1>
+<hr>
+<h1 id="21001">AG</h1><h2>アラン</h2>
+<h3>Argie Christophe</h3>
+<h4>アージー・クリストフ</h4>
+<p>家族を殺され、メロウに復讐することを決意した。<br>
+フォスがメロウを探す手伝いをするといい、<br>
+バディー関係を結ぶことに。</p>
+
+
+<h1 id="21002">フォス</h1><h2>アラン</h2>
+<h3>Fossis Crane</h3>
+<h4>フォスシス・クレイン</h4>
+<p>旅をしている。<br>
+とある理由によってメロウを探している。</p>
+
+
+<h1 id="21003">メロウ</h1><h2>ティカ</h2>
+<h3>Merly Mellow</h3>
+<p>
+殺人鬼・テロリスト<br>クリストフ国家騎士団の事件によって<br>
+テロリストに指定された。規模の大小関係なく<br>
+とにかく事件を起こしたがる。姿を見た者は<br>
+誰一人生き残っていないという。</p>
+
+<h1 id="21004">大魔導士クレイン</h1><h2>ティカ</h2>
+<h3>Arsophia Crane</h3>
+<h4>アルスォフィア・クレイン</h4>
+<p>フォスには先生と呼ばれている<br>
+始まりのティカの一員であり、<br>
+国を支え、導いた英雄。<br>
+教団・学園の設立、魔術の理論・記述法の研究、<br>
+アーティファクトの生成、など数えきれないほど<br>
+多数の功績を残した。 また、初めて子供・女性の<br>
+人権、人種差別の問題を指摘し、軽減に大きく貢献した。<br>
+ある日、自室でメロウによって殺害された。</p>
+
+<h1 class="目次" id="300">舞台</h1>
+<hr>
+    <h1 id="300">シーレンス</h1>
+    <h2>異世界</h2>
+    <p>地球とはまた別の世界。<br>共通言語<ruby>naGG<rp>（</rp><rt>なぐぐ</rt><rp>）</rp></ruby><br></p>
+
+    <div class="container">
+        <div class="column" id="シーレンス1">
+            1&nbsp;&nbsp;&nbsp;<a class="単位">年</a><br>
+            1<a class="単位">ヶ月</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">日</a><br> 1<a class="単位">時間</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">分</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">秒</a><br>
+        </div>
+        <div class="column" id="シーレンス2">
+            =&nbsp;&nbsp;8<a class="単位">ヶ月</a><br>
+            =&nbsp;&nbsp;32<a class="単位">日</a><br>
+            =&nbsp;&nbsp;24<a class="単位">時間</a><br>
+            =&nbsp;&nbsp;60<a class="単位">分</a><br>
+            =&nbsp;&nbsp;60<a class="単位">秒</a><br>
+            =&nbsp;&nbsp;1.208<a class="単位">秒</a><br>
+        </div>
+    </div>
+<div style="margin-top: 12px">1<a class="単位">年</a>=256<a class="単位">日</a><br>1<a class="単位">年</a>=2,211,840<a class="単位">秒</a><a class="種別">(シ)</a>&nbsp;,&nbsp;2,671,903<a class="単位">秒</a><a class="種別">(地)</a></p></div>
+
+<h1 id="301">ヴィルグ王国</h1><h2></h2>
+<p>シーレンスにある王国のひとつ<br>言語&nbsp;&nbsp;ヴィルグ語&nbsp;&nbsp;16進数<br>金銭単位ウォル<br>100円＝3e8ウォル</p>
+<h1 id="302">ドールラッシャ</h1>
+<p>大魔導士クレインがヴィルグから独立させた。<br>王:ヴィルグが兼任、統治はドールラッシャが行っている</p>
+    <div class="container">
+        <div class="column" id="シーレンス1">
+            1&nbsp;&nbsp;&nbsp;<a class="単位">年</a><br>
+            1<a class="単位">ヶ月</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">日</a><br> 1<a class="単位">時間</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">分</a><br>
+            1&nbsp;&nbsp;&nbsp;<a class="単位">秒</a><br>
+        </div>
+        <div class="column" id="シーレンス2">
+            =&nbsp;&nbsp;16<a class="単位">ヶ月</a><br>
+            =&nbsp;&nbsp;32<a class="単位">日</a><br>
+            =&nbsp;&nbsp;12<a class="単位">時間</a><br>
+            =&nbsp;&nbsp;60<a class="単位">分</a><br>
+            =&nbsp;&nbsp;60<a class="単位">秒</a><br>
+            =&nbsp;&nbsp;1.208<a class="単位">秒</a><br>
+        </div>
+    </div>
+<div style="margin-top: 12pxm">1<a class="単位">年</a>=512<a class="単位">日</a><br>1<a class="単位">年</a>=2,211,840<a class="単位">秒</a><a class="種別">(シ)</a>&nbsp;,&nbsp;2,671,903<a class="単位">秒</a><a class="種別">(地)</a></p></div>
+<h1 id="310">レノレレン王国</h1>
+<p>さよならアリスの舞台<br>金銭単位リリセット<br>100円＝1000リリセット</p>
+
+<h1 class="目次" id="400">行事</h1>
+<hr>
+<h1 id="400">入学式</h1>
+<p>いわゆる新年度の始まり。</p>
+
+
+<h1 id="400">夏至・冬至</h1>
+<p>この日は特に注意しなければならない。<br>
+特に衣服の袖の長さにね。</p>
+
+
+<h1 id="400">トック</h1>
+<p>神様にお供えをする日。収穫祭の時に取ったものや、<br>
+工芸品、使わなくなったものなどをお供えする。<br>
+祭司の案内をよく聞いて。</p>
+
+
+<h1 id="400">奴隷解放</h1>
+<p>アルスォフィアは人権を主張し全ての人種に適応<br>
+されるべきだと説いた。これは始まりに過ぎない。</p>
+  </main>
+  <aside class="sidebar">
+    <div class="sidebar-in">
+<div class="toc-002">
+    <div>
+        目次
+    </div>
+    <ol>
+        <li><a href="#000">階層</a></li>
+        <li><a href="#100">用語</a></li>
+            <ol>
+                <li><a href="#101">神</a></li>
+                <li><a href="#110">自然</a></li>
+            </ol>
+        <li>
+            <a href="#200">キャラクター</a>
+            <ol>
+                <li><a href="#21001">AG</a></li>
+                <li><a href="#21002">フォス</a></li>
+                <li><a href="#21003">メロウ</a></li>
+                <li><a href="#21004">大魔導士クレイン</a></li>
+            </ol>
+        </li>
+        <li>
+            <a href="#300">舞台</a>
+            <ol>
+                <li><a href="#301">ヴィルグ王国</a></li>
+                <li><a href="#302">ドールラッシャ</a></li>
+                <li><a href="#310">レノレレン王国</a></li>
+            </ol>
+        </li>
+        <li>
+            <a href="#400">行事</a>
+            <ol>
+                <li><a href="#415">入学式</a></li>
+                <li><a href="#409">夏至・冬至</a></li>
+                <li><a href="#419">トック</a></li>
+                <li><a href="#412">奴隷解放</a></li>
+            </ol>
+        </li>
+    </ol>
+</div>
+    </div>
+  </aside>
+</div>
+</body>
+</html>

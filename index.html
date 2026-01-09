@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/ fb# website: http://ogp.me/ns/ website#">
+    <title>HIC_SHI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="https://hic-shi.github.io/info/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://hic-shi.github.io/info/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://hic-shi.github.io/info/android-touch-icon.png" sizes="192x192">
+    <meta property="og:image" content="https://hic-shi.github.io/info/OGP_min.png"/>
+    <meta property="og:url" content="https://hic-shi.github.io/info/"/>
+    <meta property="og:url" content="https://hic-shi.github.io/info/index.thml"/>
+    <meta property="og:site_name" content="HIC_SHI"/> 
+    <meta property="og:title" content="HOME"/> 
+    <meta name="description" content="">
+    <meta property="og:description" content=""/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="HIC_SHI_NORI">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        height: 100%;
+    }
+    header {
+        margin-top: 12px;
+        margin-left: 11px;
+        margin-right: 21x;
+    }
+    
+    #headerHOME {
+        color: #0d2613;
+        background-color: rgb(196, 210, 196);
+    }
+    header button {
+        color: #888888;
+    }
+
+    #column1-container {
+        position: relative; 
+        width: 100%;
+    }    
+    #background-layer {
+        position: relative; 
+        width: 100%;
+        height: 80vh;
+        background-size: cover;
+        background-position: center;
+        transition: background-image 1s ease-in-out; 
+        z-index: 1; 
+    }
+
+    #content-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        z-index: 2;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-family: sans-serif;
+        overflow: hidden;
+    }
+
+    /* キャラクター */
+    #character {
+        position: absolute;
+        bottom: 4%;
+        left: -12%;
+        width: 75%;
+        height: auto;
+    }
+    main {
+        width: 100%;
+        margin-top: 12px;
+        display: flex;
+        min-height: calc(100vh - 40px - 80vh);
+    }
+    
+    .main-content-wrapper {
+        width: 80%;
+        margin: auto ;
+        padding: 10px 20% 10px 0; 
+    }
+
+    .main-content-wrapper p {
+        margin: 5px 0;
+        font-size: 1.1em;
+        line-height: 1.6;
+    }
+
+
+        @media (max-width: 1100px) {
+        #character {
+        position: absolute;
+        bottom: -5%;
+        left: -63%;
+        width: 265%;
+        height: auto;
+        }
+        @media (max-width: 1024px)and(max-height:1400px) {
+        #character {
+        position: absolute;
+        bottom: -5%;
+        left: -63%;
+        width: 265%;
+        height: auto;
+        }
+        }
+        }
+        @media (max-width: 600px) {
+        #character {
+        position: absolute;
+        bottom: -2%;
+        left: -65%;
+        width: 285%;
+        height: auto;
+        }
+        header {
+        margin-top: 11px;
+        margin-left: 2px;
+        margin-right: 2px;
+        }
+        main {
+        width: 100%;
+        margin-left: -1px;
+        box-sizing: border-box;
+        display: flex;
+        min-height: calc(100vh - 40px - 80vh);
+        }
+        .main-content-wrapper {
+        width: 80%;
+        margin-left: 9px;
+        padding: 10px 20% 10px 0; 
+        }
+        .main-content-wrapper p {
+        font-size: 0.9em;
+        line-height: 1.6;
+        }
+    }
+</style>
+</head>
+<body>
+    <header>
+<a href="index.html"><button id="headerHOME">HOME</button></a>
+<a href="about.html"><button id="headerAbout" >About</button></a>
+<a href="links.html"><button id="headerLinks">Links</button></a>
+<a href="gallery.html"><button id="headerGalley">Gallery</button></a>
+    </header>
+
+    <main>
+        
+    <div id="column1-container">
+        <div id="background-layer"></div>
+        <div id="content-layer">
+            <p id="time-display"></p>
+            <img id="character" src="uchu.png" alt="NO image">
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const background = document.getElementById('background-layer');
+        const timeDisplay = document.getElementById('time-display');
+        
+        const backgroundImages = {
+            morning: 'https://pbs.twimg.com/media/G8GUbz0bQAAnDE-?format=png',  // 5時 - 11時
+            day: 'https://pbs.twimg.com/media/G8GUbz0bQAAnDE-?format=png',      // 12時 - 16時
+            night: 'https://pbs.twimg.com/media/G8GUbz0bQAAnDE-?format=png'     // 17時 - 4時
+        };
+        
+        function updateTimeAndBackground() {
+            let hour;
+            let timePeriod;
+
+            const now = new Date();
+            hour = now.getHours();
+            
+            const timeString = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit'});
+
+            let currentBgPath;
+
+            if (hour >= 5 && hour <= 11) {
+                timePeriod = '朝';
+                currentBgPath = backgroundImages.morning;
+            } else if (hour >= 12 && hour <= 16) {
+                timePeriod = '昼';
+                currentBgPath = backgroundImages.day;
+            } else {
+                timePeriod = '夜';
+                currentBgPath = backgroundImages.night;
+            }
+
+            background.style.backgroundImage = `url('${currentBgPath}')`;
+            
+            timeDisplay.textContent = `${timeString}`; 
+        }
+
+        updateTimeAndBackground();
+        setInterval(updateTimeAndBackground, 1000); 
+        });
+    </script>
+     <div class="main-content-wrapper">
+      <div id="News">
+       <div class="News" id="NewsC">
+            <p>25.12.21 HIC_SHI</p>
+            <p>25.12.7&nbsp;&nbsp;&nbsp;wiki</p>
+            <p>25.12.10 HIC_SHI</p>
+       </div>
+       <div class="News" id="NewsB">
+            <p>：<a href="bunka.html">文化&nbsp;特設ページを公開</a></p>
+            <p>：<a href="https://scrapbox.io/hic-shi/">加筆修正</a></p>
+            <p>：<a href="https://www.pixiv.net/artworks/138456447">文化を公開</a></p>
+       </div>
+       
+            </div>
+        <a href="https://www.stylemap.co.jp/"><img src="https://www.f-counter.net/j/66/1766813693/" alt="アクセスカウンター"></a>
+
+        </div>
+    </main>
+
+</body>
+</html>

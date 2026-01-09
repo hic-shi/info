@@ -1,0 +1,188 @@
+
+    html{        
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    }
+body {
+    font-family: sans-serif;
+    margin: 11px;
+    background-color: #f4f4f4;
+    color: #535353;
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    margin-left: 10px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+}
+header a{
+    color: #aaaaaa;
+    text-decoration: none;
+}
+header button{
+    border: 1px solid #333;
+    margin-left: 2px;
+    height: 30px;
+    width: 100px;
+}
+@media (max-width: 900px) {
+body {
+    font-family: sans-serif;
+    margin: 11px;
+
+    background-color: #f4f4f4;
+    color: #535353;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    margin-top: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    width: auto;
+}
+header a{
+    color: #aaaaaa;
+    text-decoration: none;
+}
+header button{
+    width: 24vw;
+}
+#SNS_id{
+    margin-top: 20px;
+    position: absolute;
+}
+
+#banners {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    margin-top: 20px;
+}
+}
+/*　フォント　*/
+h1 {margin-bottom: 0px;}
+h2 {margin-bottom: 0px;}
+h3 {margin-bottom: 0px;}
+a {
+    text-decoration: none;
+}
+a:link {
+ color: #59B3B3;
+}
+
+a:visited {
+ color: #e88e4e;
+}
+#directory p {
+    line-height: 0px;
+}
+#SNS p {
+    line-height: 10px;
+}
+#SNS a {
+    margin: 3px;
+}
+code {font-size: 14px;color: #ffffff; background-color: #575757;}
+
+        /* コードを囲むコンテナのスタイル */
+        .copy-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+
+        /* ツールチップの基本設定（最初は非表示） */
+        .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* コードの上に表示 */
+            left: 50%;
+            margin-left: -180px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        /* ツールチップの下の三角形（吹き出し風） */
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        /* 表示クラスが付与された時のスタイル */
+        .copy-container.show-tooltip .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+#banner {
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+}
+img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none; 
+  pointer-events:none; 
+  -webkit-touch-callout:none;
+  position: relative;
+}
+*[draggable=true] img {
+  -webkit-touch-callout: none;
+}
+#banner img {
+width: 200px;
+}
+#SNS{
+    display: flex;
+}
+.SNS{
+    display: flex;
+    flex-direction: column;
+}
+
+    header button {
+    color: #888888;
+    }
+#News{    
+    display: flex;
+}
+.News{
+    display: flex;
+    flex-direction: column;
+}

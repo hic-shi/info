@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>User Directory with Custom Cursor</title>
+    <style>
+        body {
+            width: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: #efeef1;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .user-card {
+            display: flex;
+            gap: 30px;
+            border: 1px solid #757779;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fdfdfd;
+            position: relative;
+            z-index: 10;
+        }
+
+        .user-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #565656;
+            margin-left: 10px;
+        }
+
+        .user-profile { flex: 1; }
+        .user-header { display: flex; align-items: center; margin: 5px 0; }
+        .user-name { font-weight: bold; margin: 0; font-size: 1.2em; }
+        .user-id { 
+            position: absolute;
+            right: 7px;
+            bottom: 5px;
+            font-size: 0.8em; 
+            color: #666;
+        }
+        .user-sns { margin-top: 8px; font-size: 0.85em; }
+        .user-sns a { color: #1da1f2; text-decoration: none; font-weight: bold; }
+
+        .user-category { 
+            background: #ffffff;
+            color: #292929;
+            padding: 2px 8px;
+            border: #292929 solid 1px;
+            margin-left: 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .user-description {
+            margin-bottom: 6px;
+            margin-top: 8px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        #cursor-text {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            font-family: sans-serif;
+            z-index: 10000;
+            white-space: nowrap;
+        }
+
+        .letter {
+            position: absolute;
+            top: -50px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+            color: rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-text">(・_・)</div>
+
+    <main>
+        <div id="user-container"></div>
+    </main>
+
+    <script>
+        // データ
+        const users = [
+            { "id": 1, "name": "中村佳穂", "category": "音楽", "icon":"https://yt3.googleusercontent.com/UeqRVn56ARsqGLN9UOEHMwjq0cCj7YxXfzOO_jnztj1rA6PPMGQLuVL9GZdAL1MX1c-2LcS6=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube(再生リスト)", "sns_url": "https://youtube.com/playlist?list=PLckQ-aoJ6vqMxaKXuHH5xr-retrcCRw8n&si=tNyHNIeuY6aPf-eV", "description": "音楽という概念を纏っている。力強い歌声と常に楽しそうな表情であっという間に惚れてしまった。ライブが一番輝いて見える。" },
+            { "id": 2, "name": "木葉はづく", "category": "映像", "icon":"https://pbs.twimg.com/profile_images/1827603360028950528/cjr_tArj_400x400.jpg", "sns_platform": "x", "sns_url": "https://x.com/HAZUQU", "description": "研究者っぽい。試せることは全て試しているように思える。美学ウィキ(日本語版)のプロジェクトを開始し、さらに研究者っぽい。" },
+            { "id": 3, "name": "楽園脳薬91°", "category": "イラスト・映像・アニメ・VTuber", "icon":"https://pbs.twimg.com/profile_images/1989081278914977792/8n670_vL_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/X1RKUENN?s=20", "description": "ポップでキュートなのに深い闇が見え隠れ。掴み難いキャラクター性に思わず引き込まれる。" },
+            { "id": 4, "name": "原口沙輔", "category": "音楽・映像・デザイン", "icon":"https://pbs.twimg.com/profile_images/1655045120398614528/p7GyXCA5_400x400.jpg", "sns_platform": "HP", "sns_url": "https://lit.link/sasukeharaguchi", "description": "ボカロ界に新しい音楽を持ち込んだ謎の天才。代表曲：人マニア" },
+            { "id": 5, "name": "LΛMPLIGHT", "category": "言語・音楽・映像", "icon":"https://pbs.twimg.com/profile_images/1857727970816962560/ndhXXPD4_400x400.jpg", "sns_platform": "HP", "sns_url": "https://lamplight0.sakura.ne.jp/a/", "description": "珍しい平均律をつかい新しい音楽の可能性を開拓している。なんと幼少期の記憶のない頃から人工言語を生み出していたらしい。" },
+            { "id": 6, "name": "長谷川白紙", "category": "音楽", "icon":"https://yt3.googleusercontent.com/C381P2FLk0EYnV_Q5r-F303gfJ0kvvAdeieZokgszw7Lab3mbKIHmCgmt6eeN-wOeD8Kc91XAA=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "HP", "sns_url": "https://hakushihasegawa.com/","description": "音楽界の期待の星。独自の世界観で既存の音楽の概念を破壊して回っている。" },
+            { "id": 7, "name": "やきとり", "category": "小説・youtuber", "icon":"https://yt3.googleusercontent.com/Qi8ef9sql3bwTI8Kb7nkeyDoI0WFE_uKna-S-psP8eRgTeg9xRtoVKpVXu2G7EgZUJVbw920mQ=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://youtube.com/channel/UCn94pG_wBJdjo7k-ByBt8RQ?si=n-6FofWfyZzjeO4p", "description": "穏やかな性格で、優しい語りに一目惚れ。言葉から視点から何から何までいい人だなっていう雰囲気が感じられる。暖かい。" },
+            { "id": 8, "name": "椎乃味醂", "category": "音楽", "icon":"https://pbs.twimg.com/profile_images/2037901462236512256/XbtEwV9T_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/sheeno3rin", "description": "自身の思考をそのまま音楽にアウトプットしたような歌詞で、曲を追うたびに成長していく彼に目が離せない。" },
+            { "id": 9, "name": "ぎゅるこ", "category": "音楽・イラスト・アニメーション", "icon":"https://pbs.twimg.com/profile_images/1995135807045435392/0HoPbRlW_400x400.jpg", "sns_platform": "YouTube", "sns_url": "https://www.youtube.com/@bye_bye_werther/videos", "description": "苦悩と孤独を抱えた中毒性の高い世界観で紡がれる音楽。絵が上手い。" },
+            { "id": 10, "name": "中瀬ミル", "category": "音楽・絵", "icon":"https://yt3.googleusercontent.com/JSXQHziNhjHQYbivXbicoMFvxWErV8GYWTJiBTwFAOD5_BHsFF8Vs6i-KRLzIwUyFaqvr9R1=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://www.youtube.com/@mirunakase/featured", "description": "自戒のような音楽で他人の心を刺してくる。寂しさを抱えたストーリーに惚れた。" },
+            { "id": 11, "name": "テクノポップ・有機・シンセサイザーちゃん", "category": "歌", "icon":"https://yt3.googleusercontent.com/9hMOa5NvCTTsxADtsWzFZEiDi4O7SPSbf5okczZBU8GY_M4UCOX-OsI5wdrn7uu6mvSV7iJS=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://www.youtube.com/@Synthesizerchan/featured", "description": "2次元と3次元を行き来するコンセプト系の歌い手(?)" },
+            { "id": 12, "name": "たなかの", "category": "イラスト", "icon":"https://pbs.twimg.com/profile_images/1693140513204174849/ow1uCeVt_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/tn_kn1000", "description": "主線なしの可愛いイラスト。グッズのセンスがかなり良い。" },
+            { "id": 13, "name": "シャノン", "category": "音楽・アニメ", "icon":"https://yt3.googleusercontent.com/ytc/AIdro_k9UxubzKDB5jHy2og-imMyNmFZ9r80FWiiyVwWakBzI-k=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube(再生リスト)", "sns_url": "https://youtube.com/playlist?list=PL6POfEBMaPYRJv0sdsamkSToJ-US5vhiM&si=nkModLtxfrHRA9q1", "description": "シリーズものが終わって単発系にシフトしたものの、以前からある日本らしいホラーを纏っている。" },
+            { "id": 14, "name": "kaza", "category": "歌・映像", "icon":"https://yt3.googleusercontent.com/YESApHggFMNJhimG9UO6dbTtbLzI-9vtK4BgOCpANo19UGBkOj97_YhfR2iqCgi5jTUBUcYgNA=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube(再生リスト)", "sns_url": "https://youtube.com/playlist?list=PLS8p-LAhZ4Kl2E-Ilv8nGpGwfEHeAFg0v&si=1ffiaIZHr6K9kO09", "description": "ちょっとクセのある歌声で不思議にも惚れてしまう。平成初期のレトロ感。" },
+            { "id": 15, "name": "ゲームさんぽ/よそ見", "category": "YouTuber", "icon":"https://yt3.googleusercontent.com/_aen6A9GomXCjSYj5lvQM16g_2o0Nn1BbnMqCuReKSprR5dulZ0AqWEYIPfI2ofW1mdE5lr13A=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://www.youtube.com/@gamesampo_yosomi", "description": "専門家と一緒にゲームをしながら、専門分野の面白さを読み解いていく。" },
+            { "id": 16, "name": "信頼できない語り手", "category": "ポットキャスト", "icon":"https://pbs.twimg.com/media/HAdoouobEAAPS-f?format=jpg&name=4096x4096", "sns_platform": "YouTube(再生リスト)", "sns_url": "https://youtube.com/playlist?list=PLAlZRoZvscwa9ytORDdk5WGE7zIzybukW&si=iDXCOfZdLx824TZl", "description": "初めて自主的に聞いているポットキャスト。あまりにも面白く、前提知識がなくても楽しめるタイプなのでぜひ聞いてほしい。。" },
+            { "id": 17, "name": "𝙮𝙪𝙞𝙧𝙪", "category": "映像", "icon":"https://pbs.twimg.com/profile_images/1615532887096590339/GlG_hSzi_400x400.jpg", "sns_platform": "x", "sns_url": "https://x.com/_iilliillj", "description": "ジャンルリサーチがうまいと言えばいいのでしょうか。とにかく美しい。" },
+            { "id": 18, "name": "柚璃遥", "category": "映像・3D", "icon":"https://yt3.googleusercontent.com/5TBe8j51q9Hk7Cj4vJDiY1PMw0EkKOP5-Om425Zb5P0Ec04yuZ_hO3GPvNx6gYOi_ke5JuOG=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://youtube.com/playlist?list=PLqYwSVMAI6pc3vjqEkmvPFD58fCD6W-rw&si=WD0qokxPCIdJCRZ1", "description": "この映像好きだなぁと思ったときにこの人である確率が高すぎる。" },
+            { "id": 19, "name": "PRODUTE-me", "category": "イラスト・映像・同人誌", "icon":"https://pbs.twimg.com/profile_images/1972948543217516544/Fmi-88H5_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/produteme", "description": "同人作家の区分のはず。つい最近、新しいプロジェクトが動き始めた。" },
+            { "id": 20, "name": "ヰ世界情緒", "category": "歌・イラスト・作詞", "icon":"https://yt3.googleusercontent.com/2j1Cr_bmqOzCXFJU8UE4CM5Jxg6PVG70PDAWEC74uQuZasdEDxKgsBgZf1Dk6v6VXcBAkF3QOg=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://www.youtube.com/@isekaijoucho/videos", "description": "歌が上手い。絵も上手い。表現力の幅が非常に広い。" },
+            { "id": 21, "name": "郁剑坤", "category": "イラスト", "icon":"https://i.gyazo.com/9ab5126f04fdf22bbd56485da84189c3.png", "sns_platform": "weibo", "sns_url": "https://weibo.com/u/2422791120", "description": "独自の世界観と最高なカメラワーク。ストーリーのあるイラストに思わず心が揺れ動かされる。" },
+            { "id": 22, "name": "あばらや", "category": "音楽・3D", "icon":"https://yt3.googleusercontent.com/DzgZ_sqzpFu1zGOIWb1AJzTQ_Rck65U8wzu_4A3i4VvwdqQL3Y5fDasncZrUgOaDoIh05q2N=s160-c-k-c0x00ffffff-no-rj", "sns_platform": "YouTube", "sns_url": "https://youtube.com/@avaraya?si=wWDTQgHW8janGscc", "description": "今とてもアツいボカロp。" },
+            { "id": 23, "name": "旧都なぎ", "category": "イラスト", "icon":"https://pbs.twimg.com/profile_images/1885962642629775361/_e_vu2YY_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/QTONAGI", "description": "個性のある絵柄に一目惚れ。どこからそんなアイディアが降ってきたんだと思えるほどセンスがいい。" },
+            { "id": 24, "name": "れおえん", "category": "イラスト", "icon":"https://pbs.twimg.com/profile_images/1317316583644045315/Pk5UW9Nt_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/reoenl", "description": "儚げで機械的な神秘さを含んだ美しいイラストを描く。おそらくこれが本物のエロス。" },
+            { "id": 25, "name": "r-906", "category": "音楽・映像・アニメーション・小説", "icon":"https://pbs.twimg.com/profile_images/1981589439945060352/2Vj7iP2Y_400x400.jpg", "sns_platform": "X", "sns_url": "https://x.com/arukuremu", "description": "アルバムと同時に小説を発売。そろそろ音楽家とは言えない領域になってきた。" }
+        ];
+
+        // カードの描画
+        const container = document.getElementById('user-container');
+        users.forEach((user) => {
+            const snsLink = (user.sns_platform && user.sns_url) 
+                ? `<div class="user-sns">
+                     <a href="${user.sns_url}" target="_blank" rel="noopener noreferrer">${user.sns_platform}</a>
+                   </div>`
+                : "";
+
+            const html = `
+                <div class="user-card">
+                    <img src="${user.icon}" alt="${user.name}" class="user-image">
+                    <div class="user-profile">
+                        <div class="user-header">
+                            <p class="user-name">${user.name}</p>
+                            <div class="user-category">${user.category}</div>
+                        </div>
+                        <p class="user-description">
+                            ${user.description || "説明はありません。"}
+                        </p>
+                        ${snsLink} 
+                        <span class="user-id">${user.id}</span>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+
+        // マウス追尾と文字変更
+        const cursor = document.getElementById('cursor-text');
+        const defaultText = "(・_・)";
+        const hoverText = "(@v@)";
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX + 15}px, ${e.clientY - 15}px)`;
+        });
+
+        const cards = document.querySelectorAll('a');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                cursor.textContent = hoverText;
+            });
+            card.addEventListener('mouseleave', () => {
+                cursor.textContent = defaultText;
+            });
+        });
+
+        // 背景アニメーション (文字が降る)
+        const chars = "*+-★☆✳︎＊中村佳穂A木葉はづくB*+-★☆✳︎＊楽園脳薬91°C原口沙輔DLΛMPLIGHT*+-★☆✳︎＊E長谷川白紙F*+-★☆✳︎＊やきとりG椎乃味醂HぎゅるこI*+-★☆✳︎＊中瀬ミルJテクノポップ・有機・シンセサイザーちゃん*+-★☆✳︎＊KたなかのLシャノンMkazaNゲームさんぽ/よそ見O信頼できない語り手P𝙮𝙪𝙞𝙧𝙪Q柚璃遥RPRODUTE-meSヰ世界情緒T郁剑坤UあばらやV旧都なぎWれおえんXr-906Y*Z+";
+        const speed = 15;
+        const randomSize = 24;
+        const createCT = 100;
+
+        const fallstyle = document.createElement("style");
+        fallstyle.innerHTML = `
+            @keyframes fall {
+                to { transform: translateY(${document.body.scrollHeight}px); }
+            }
+        `;
+        document.head.appendChild(fallstyle);
+
+        function createLetter() {
+            const letter = document.createElement("div");
+            letter.className = "letter";
+            letter.textContent = chars[Math.floor(Math.random() * chars.length)];
+            letter.style.left = Math.random() * window.innerWidth + "px";
+            
+            const duration = speed + Math.random() * 5;
+            letter.style.animation = `fall ${duration}s linear forwards`;
+            letter.style.fontSize = (12 + Math.random() * randomSize) + "px";
+
+            document.body.appendChild(letter);
+
+            setTimeout(() => {
+                letter.remove();
+            }, duration * 1000);
+        }
+        setInterval(createLetter, createCT);
+    </script>
+</body>
+</html>
+BYEDIT-12619053.html
+BYEDIT-12619053.html を表示しています。

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <title>HIC_SHI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="global-nav">
+      <a href="index.html" class="global-nav__link" >Home</a>
+      <a href="about.html" class="global-nav__link">About</a>
+      <a class="global-nav__link"id="visited">Links</a>
+      <a href="gallery.html" class="global-nav__link" >Gallery</a>
+    </nav>
+    <header>
+        <a href="index.html"><img src="img/favicon.ico"></a>
+    </header>
+    <main class="l-main">
+        <div class="p__title"></div>
+<h1>制作</h1>
+<a href="https://hic-shi.github.io/characterstable/">キャラクター簡易表</a>
+<a href="https://docs.google.com/spreadsheets/d/1bD1aNT7KsyP3bEY42WzSzDtswRL29nGAcS3ObKimWrs/edit?usp=sharing">AMC</a>
+<a href="https://sakazukiaoi.github.io/TMC./">TMC</a>
+<a href="https://sakazukiaoi.github.io/sisaku0017/">誕生日カレンダー</a>
+<a href="https://sakazukiaoi.github.io/sisaku0023/">タイマー(リピート)</a>
+<a href=""></a>
+<a href="https://sakazukiaoi.github.io/sisaku0020/">時計・カレンダー</a>
+<a href="https://sakazukiaoi.github.io/sisaku008/">変換機(β)</a>
+<a href="https://sakazukiaoi.github.io/museum/">辞書(β)</a>
+<a href="https://sakazukiaoi.github.io/shisaku0019/">執筆(β)</a>
+</div>
+
+<div>
+    <h2>リンク</h2><div id="banner">
+        my free banners ~~ 創作サイトのみ設置〇
+    <div class="copy-container" onclick="copyToClipboard(this, 'HIC')" style="cursor: pointer; position: relative;">
+        <img src="https://hic-shi.github.io/HOME/img/banner.png" alt="HIC_SHI">
+        <span class="tooltip">コピーしました！</span>
+    </div>
+    
+    <div class="copy-container" onclick="copyToClipboard(this, 'AGF')" style="cursor: pointer; position: relative;">
+        <img src="https://hic-shi.github.io/AGFos/img/banner.png" alt="AGFos">
+        <span class="tooltip">コピーしました！</span>
+    </div>
+    
+    <p>↳画像をクリッしてコードをコピーする</p>
+
+    <script>
+        function copyToClipboard(element, type) {
+            let textToCopy = '';
+
+            if (type === 'HIC') {
+                textToCopy = '<a href="https://hic-shi.github.io/HOME/"><img src="https://hic-shi.github.io/HOME/img/banner.png" alt="HIC_SHI"></a>';
+            } else if (type === 'AGF') {
+                textToCopy = '<a href="https://hic-shi.github.io/AGFos"><img src="https://hic-shi.github.io/AGFos/banner.png" alt="AGFos"></a>';
+            }
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                element.classList.add('show-tooltip');
+                setTimeout(() => {
+                    element.classList.remove('show-tooltip');
+                }, 2000);
+            }).catch(err => {
+                console.error('コピーに失敗しました', err);
+            });
+        }
+    </script>
+
+    <style>
+        .tooltip {
+            transition: opacity 0.3s;
+        }
+
+        .show-tooltip .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</div>
+
+<div id="scrap">
+    <h2>スクラップ</h2>
+    <a class="banners" href="https://x.com/Norinohakobune"><img src="https://hic-shi.github.io/HOME/HAKOBUNEbanner.png" alt="ノリの方舟" style="width: 200px;"></a>
+    <a class="banners" href="https://hic-shi.github.io/AGFos"><img src="https://hic-shi.github.io/AGFos/banner.png" alt="AGFos" style="width: 200px;"></a>    
+    <a class="banners" href="https://www.pixiv.net/artworks/138456447"><img src="https://hic-shi.github.io/HOME/bunka.png" alt="humika" style="width: 200px;"></a>
+    <br><br>
+    <a class="banners" href="https://sensore.moo.jp/"><img src="https://sensore.moo.jp/banner.jpg" alt="センネンソレトテ" style="width: 200px;"></a>
+</div>
+</main>
+</body>
+</html>

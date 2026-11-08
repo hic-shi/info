@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="body">
+    <div class="hero">
+        <img src="img/hero.jpg">
+    </div>
+    <header>
+        <a href="index.html"><img src="img/favicon.ico"></a>
+    </header>
+  <div class="l-root-container">
+    <!-- ナビ -->
+    <nav class="global-nav">
+      <a class="global-nav__link" id="visited" >Home</a>
+      <a href="about.html" class="global-nav__link">About</a>
+      <a href="links.html" class="global-nav__link">Links</a>
+      <a href="gallery.html" class="global-nav__link">Gallery</a>
+    </nav>
+    <!-- メインコンテンツ -->
+    <main class="l-main">
+        <div class="p__title">
+        
+        <a href="https://www.stylemap.co.jp/" style="display: none;"><img src="https://www.f-counter.net/j/66/1766813693/" alt="アクセスカウンター"></a>
+        <div class="p-news">
+            <h3>News</h3>
+            <div id="news-container">読み込み中...</div>
+        </div>
+<script>
+    async function loadNews() {
+        const container = document.getElementById('news-container');
+        const repo = 'hic-shi/hic-shi.github.io';
+        const apiURL = `https://api.github.com/repos/${repo}/contents/news`;
+
+        try {
+            const response = await fetch(apiURL);
+            if (!response.ok) throw new Error('取得に失敗しました');
+            const files = await response.json();
+
+            const mdFiles = files
+            .filter(file => file.name.endsWith('.md'))
+            .sort((a, b) => b.name.localeCompare(a.name));
+
+            let html = '';
+            for (const file of mdFiles) {
+                const date = file.name.replace('.md', '').replace(/^20/, '');
+                const textRes = await fetch(file.download_url);
+                const text = await textRes.text();
+                html += `<p>${date} ${text.trim()}</p>`;
+            }
+
+            container.innerHTML = html;
+        } catch (e) {
+            console.error(e);
+            container.innerText = 'ニュースを読み込めませんでした。';
+        }
+    }
+loadNews();
+</script>
+        </div>
+    </main>
+
+  </div>
+    <!-- フッター -->
+    <footer class="l-footer">
+      <small>&copy; 2026 HIC_SHI</small>
+    </footer>
+
+</body>
+</html>

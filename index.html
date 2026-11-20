@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIC_SHI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="body">
+    <div class="hero">
+        <img src="img/hero.jpg">
+    </div>
+    <header>
+        <a href="index.html"><img src="img/favicon.ico"></a>
+    </header>
+    
+  <div class="l-root-container">
+    <nav class="global-nav">
+      <a href="#tab-home" class="global-nav__link">Home</a>
+      <a href="#tab-about" class="global-nav__link">About</a>
+      <a href="#tab-links" class="global-nav__link">Links</a>
+      <a href="gallery.html" class="global-nav__link">Gallery</a>
+    </nav>
+
+    <main class="l-main tab-container">
+        
+        <section id="tab-home" class="tab-content">
+            <div class="p__title">
+                <a href="https://www.stylemap.co.jp/" style="display: none;"><img src="https://www.f-counter.net/j/66/1766813693/" alt="アクセスカウンター"></a>
+            </div>
+            <h1 style="margin-top: 40%; color: #fb944a;">Hello world!</h1>
+            <div class="p-news" style="display: none;">
+                <h3>News</h3>
+                <div id="news-container">読み込み中...</div>
+            </div>
+            <script>
+                async function loadNews() {
+                    const container = document.getElementById('news-container');
+                    const repo = 'hic-shi/hic-shi.github.io';
+                    const apiURL = `https://api.github.com/repos/${repo}/contents/news`;
+                    try {
+                        const response = await fetch(apiURL);
+                        if (!response.ok) throw new Error('取得に失敗しました');
+                        const files = await response.json();
+                        const mdFiles = files
+                        .filter(file => file.name.endsWith('.md'))
+                        .sort((a, b) => b.name.localeCompare(a.name));
+                        let html = '';
+                        for (const file of mdFiles) {
+                            const date = file.name.replace('.md', '').replace(/^20/, '');
+                            const textRes = await fetch(file.download_url);
+                            const text = await textRes.text();
+                            html += `<p>${date} ${text.trim()}</p>`;
+                        }
+                        container.innerHTML = html;
+                    } catch (e) {
+                        console.error(e);
+                        container.innerText = 'ニュースを読み込めませんでした。';
+                    }
+                }
+                loadNews();
+            </script>
+        </section>
+
+        <section id="tab-about" class="tab-content about-content">
+            <section class="roster-group">
+                <div class="roster-header">
+                    <img src="https://hic-shi.github.io/info/banner.png" alt="ROUP TOP Banner" class="group-banner">
+                    <h2 class="group-title">GROUP TOP</h2>
+                </div>
+                <div class="member-grid">
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/2109291926210121728/YT_WorP9_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">HIC_SHI</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/hic_shi_o">x</a>
+                                <a href="https://hic-shi.booth.pm/">BOOTH</a>
+                                <a href="https://scrapbox.io/hic-shi/">Wiki</a>
+                                <a href="https://www.pixiv.net/users/115392000">Pixiv</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1992910036071550976/f3aSEBSa_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">音魅帳</h3>
+                            <div class="member-links">
+                                <a href="https://www.youtube.com/@nemi_note">YouTube</a>
+                                <a href="https://x.com/nemi_note">x</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="roster-group">
+                <div class="roster-header">
+                    <img src="https://pbs.twimg.com/media/HXixgi2bMAA0Lhn?format=png&name=medium" alt="音魅帳 Banner" class="group-banner">
+                    <h2 class="group-title">音魅帳</h2>
+                </div>
+                <div class="member-grid">
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1776795059113062400/eTQFBLEX_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">坂月 蒼</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/aoi_sakaduki">x</a>
+                                <a href="https://www.pixiv.net/users/43077952">Pixiv</a>
+                                <a href="https://www.youtube.com/@aoi_sakaduki">YouTube</a>
+                                <a href="https://piapro.jp/aoi_sakaduki">piapro</a>
+                                <a href="https://skeb.jp/@aoi_sakaduki">Skeb</a>
+                                <a href="https://scrapbox.io/hic-shi/坂月蒼">...ect</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/media/HXiO8VcaAAErWGt?format=png&name=small" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">nakitakuなる</h3>
+                            <div class="member-links">
+                                <a href="https://www.pixiv.net/users/40340816">Pixiv</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">多度津 糾</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/xxxtdt">x(曲)</a>
+                                <a href="https://x.com/tdt_reE">x(動画)</a>
+                                <a href="https://www.nicovideo.jp/user/125719621/mylist/73663964?ref=pc_userpage_mylist">niconico</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="roster-group">
+                <div class="roster-header">
+                    <img src="https://pbs.twimg.com/media/HXiw2OTaEAA3i1y?format=jpg&name=medium" alt="INDEPENDENT Banner" class="group-banner">
+                    <h2 class="group-title">INDEPENDENT</h2>
+                </div>
+                <div class="member-grid">
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1777124825347330048/lKoyh4E7_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">実験体</h3>
+                            <div class="member-links">
+                                <s>x</s>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1909175767176822784/cynKZdW1_400x400.png" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">遺書</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/nakuimimonaku">x</a>
+                                <a href="https://note.com/mititsuki">note</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1853397776614477824/qozkoi4Q_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">ﾐ~ﾝ</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/r99_FAN">x</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1982106409652158464/lh-jBFCe_400x400.png" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">_n_gr_m</h3>
+                            <div class="member-links">
+                                <a href="https://x.com/_n_gr_m">x</a>
+                                <a href="https://sakazukiaoi.github.io/TMC./">Portfolio</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/media/HXiP6u6bUAAe4-i?format=png&name=240x240" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">(Enigma)</h3>
+                            <div class="member-links">
+                                <a href="https://www.pixiv.net/users/108103581">Pixiv</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://pbs.twimg.com/profile_images/1500844886568087552/cKagjtyC_400x400.jpg" alt="" class="member-icon">
+                        <div class="member-info">
+                            <h3 class="member-name">匿名希望</h3>
+                            <div class="member-links">
+                                <s>Pixiv</s>
+                                <s>x</s>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="roster-group">
+                <div class="roster-header">
+                    <img src="https://hic-shi.github.io/info/HAKOBUNEbanner.png" alt="OTHERS Banner" class="group-banner">
+                    <h2 class="group-title">OTHERS</h2>
+                </div>
+                <div class="member-grid">
+                <div class="member-card">
+                    <img src="https://pbs.twimg.com/profile_images/2039244132586319872/7BUgugWH_400x400.jpg" alt="" class="member-icon">
+                    <div class="member-info">
+                        <h3 class="member-name">ノリの方舟</h3>
+                        <div class="member-links">
+                            <a href="https://www.youtube.com/channel/UCEjlm7quBAR-OMrIKzcmd5g">YouTube</a>
+                            <a href="https://x.com/Norinohakobune">公式x</a>
+                            <a href="https://x.com/HIC_SHI_NORI">個人x</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://pbs.twimg.com/profile_images/2114874612731535360/6gZoHGT5_400x400.jpg" alt="" class="member-icon">
+                    <div class="member-info">
+                        <h3 class="member-name">りんごじゃむ</h3>
+                        <div class="member-links">
+                            <a href="https://x.com/rinngozyamu_2">公式x</a>
+                            <a href="https://applejam2.github.io/info/">HP</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </section>
+
+        <section id="tab-links" class="tab-content links-content">
+            <h2>制作</h2>
+            <div class="dotgothic16-regular">
+                <a href="https://hic-shi.github.io/characterstable/">キャラクター簡易表</a><i>すごいぞ!</i><br>
+                <a href="https://docs.google.com/spreadsheets/d/1bD1aNT7KsyP3bEY42WzSzDtswRL29nGAcS3ObKimWrs/edit?usp=sharing">AMC</a>
+                <a href="https://sakazukiaoi.github.io/TMC./">TMC</a>
+                <a href="https://sakazukiaoi.github.io/sisaku0017/">誕生日カレンダー</a><br>
+                <a href="https://sakazukiaoi.github.io/sisaku0023/">タイマー(リピート)</a>
+                <a href="https://sakazukiaoi.github.io/sisaku0020/">時計・カレンダー</a>
+                <a href="https://sakazukiaoi.github.io/sisaku008/">変換機(β)</a>
+                <a href="https://sakazukiaoi.github.io/museum/">辞書(β)</a>
+                <a href="https://sakazukiaoi.github.io/shisaku0019/">執筆(β)</a>
+            </div>
+            <hr>
+            <div id="banner">
+                <h2>バナー</h2>
+                <p>my free banners ~~ 創作サイトのみ設置〇</p>
+                
+                <div class="copy-container" onclick="copyToClipboard(this, 'HIC')">
+                    <img src="https://hic-shi.github.io/info/banner.png" alt="HIC_SHI">
+                    <span class="tooltip">コピーしました！</span>
+                </div>
+                
+                <div class="copy-container" onclick="copyToClipboard(this, 'AGF')">
+                    <img src="https://hic-shi.github.io/AGFos/banner.png" alt="AGFos">
+                    <span class="tooltip">コピーしました！</span>
+                </div>
+                <br>画像をクリックでリンクコードをコピー
+            </div>
+
+            <div id="scrap">
+                <h2>スクラップ</h2>
+                <h3>my...</h3>
+                <a class="banners" href="https://hic-shi.github.io/AGFos"><img src="https://hic-shi.github.io/AGFos/banner.png" alt="AGFos" style="width: 200px;"></a>  
+                <a class="banners" href="https://x.com/Norinohakobune"><img src="https://hic-shi.github.io/HOME/HAKOBUNEbanner.png" alt="ノリの方舟" style="width: 200px;"></a>
+                <a class="banners" href="https://x.com/rinngozyamu_2"><img src="https://hic-shi.github.io/info/applejam.png" alt="りんごじゃむ" style="width: 200px;"></a>  
+                <a class="banners" href="https://www.pixiv.net/artworks/138456447"><img src="https://hic-shi.github.io/HOME/bunka.png" alt="humika" style="width: 200px;"></a>
+
+                <h3>bkm...</h3>
+                <a class="banners" href="https://sensore.moo.jp/"><img src="https://sensore.moo.jp/banner.jpg" alt="センネンソレトテ" style="width: 200px;"></a>
+            </div>
+            
+            <script>
+                function copyToClipboard(element, type) {
+                    let textToCopy = '';
+                    if (type === 'HIC') {
+                        textToCopy = '<a href="https://hic-shi.github.io/info/"><img src="https://hic-shi.github.io/info/banner.png" alt="HIC_SHI"></a>';
+                    } else if (type === 'AGF') {
+                        textToCopy = '<a href="https://hic-shi.github.io/AGFos"><img src="https://hic-shi.github.io/AGFos/banner.png" alt="AGFos"></a>';
+                    }
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        element.classList.add('show-tooltip');
+                        setTimeout(() => {
+                            element.classList.remove('show-tooltip');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('コピーに失敗しました', err);
+                    });
+                }
+            </script>
+        </section>
+
+    </main>
+  </div>
+    <footer class="l-footer">
+      <small>&copy; 2026 HIC_SHI</small>
+    </footer>
+
+</body>
+</html>
